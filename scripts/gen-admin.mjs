@@ -96,7 +96,10 @@ function setVar(key, value) {
   if (!map.has(key)) {
     order.push(key);
   }
-  map.set(key, `${key}=${value}`);
+  // Escape `$` as `\$` so Next.js (@next/env) does NOT treat it as variable
+  // expansion — critical for bcrypt hashes like `$2b$12$...`.
+  const escaped = String(value).replace(/\$/g, "\\$");
+  map.set(key, `${key}=${escaped}`);
   written.push(key);
 }
 
@@ -104,20 +107,28 @@ function setVar(key, value) {
 setVar("ADMIN_USERNAME", username);
 setVar("ADMIN_PASSWORD_HASH", hash);
 
-// Only generate secrets if not already present
-const existingSecret = map.has("AUTH_SECRET")
-  ? map.get("AUTH_SECRET").split("=").slice(1).join("=")
-  : "";
-if (!existingSecret) {
+/** Extract a var's value from its stored line, stripping quotes/whitespace. Empty/missing → "". */
+function getValue(key) {
+  if (!map.has(key)) return "";
+  const line = map.get(key);
+  const eqIdx = line.indexOf("=");
+  if (eqIdx === -1) return "";
+  let v = line.slice(eqIdx + 1).trim();
+  // strip surrounding single or double quotes
+  if (v.length >= 2 && ((v[0] === '"' && v.at(-1) === '"') || (v[0] === "'" && v.at(-1) === "'"))) {
+    v = v.slice(1, -1);
+  }
+  return v.trim();
+}
+
+// Only generate secrets if not already present AND non-empty
+if (!getValue("AUTH_SECRET")) {
   setVar("AUTH_SECRET", randomBytes(32).toString("base64"));
 } else {
   console.log("AUTH_SECRET already set — keeping existing value.");
 }
 
-const existingSalt = map.has("HASH_SALT")
-  ? map.get("HASH_SALT").split("=").slice(1).join("=")
-  : "";
-if (!existingSalt) {
+if (!getValue("HASH_SALT")) {
   setVar("HASH_SALT", randomBytes(32).toString("base64"));
 } else {
   console.log("HASH_SALT already set — keeping existing value.");

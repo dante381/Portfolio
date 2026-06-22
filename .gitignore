@@ -56,3 +56,6 @@ next-env.d.ts
 .playwright-mcp/
 portfolio-phase1.png
 *.screenshot.png
+dashboard-*.png
+portfolio-*.png
+*.png.tmp
