@@ -89,6 +89,41 @@ function getLimiter(): Promise<LimitFn | null> {
   return limiterPromise;
 }
 
+// ── Upstash limiter (auth-specific) ───────────────────────────────────────────
+
+// Auth limiter: 5 req / 15 min per IP
+async function getUpstashAuthLimiter(): Promise<LimitFn | null> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+
+  try {
+    const { Ratelimit } = await import("@upstash/ratelimit");
+    const { Redis } = await import("@upstash/redis");
+
+    const redis = new Redis({ url, token });
+    const ratelimit = new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(5, "15 m"),
+      analytics: false,
+      prefix: "rl:auth",
+    });
+
+    return (key: string) => ratelimit.limit(key);
+  } catch {
+    return null;
+  }
+}
+
+let authLimiterPromise: Promise<LimitFn | null> | null = null;
+
+function getAuthLimiter(): Promise<LimitFn | null> {
+  if (!authLimiterPromise) {
+    authLimiterPromise = getUpstashAuthLimiter();
+  }
+  return authLimiterPromise;
+}
+
 // ── Public API ──────────────────────────────────────────────────────────────
 
 /**
@@ -107,9 +142,25 @@ export async function limit(key: string): Promise<{ success: boolean }> {
 }
 
 /**
+ * Rate-limit login attempts by IP.
+ * /api/auth/login: 5 requests per 15-minute sliding window.
+ *
+ * @returns { success: true } if under limit, { success: false } if exceeded.
+ */
+export async function authLimit(key: string): Promise<{ success: boolean }> {
+  const upstash = await getAuthLimiter();
+  if (upstash) {
+    return upstash(key);
+  }
+  // Fallback: 5 req / 15 min in-memory
+  return inMemoryLimit(`auth:${key}`, 5, 15 * 60_000);
+}
+
+/**
  * Reset the in-memory store (test helper — only affects the fallback path).
  */
 export function _resetInMemoryStore(): void {
   inMemoryStore.clear();
   limiterPromise = null;
+  authLimiterPromise = null;
 }

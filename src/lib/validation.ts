@@ -35,3 +35,26 @@ export const trackPayloadSchema = z
   .strict();
 
 export type TrackPayload = z.infer<typeof trackPayloadSchema>;
+
+// ── Auth schemas ───────────────────────────────────────────────────────────────
+
+/**
+ * Schema for POST /api/auth/login body.
+ * Strict — rejects unknown keys. Clamps lengths to prevent oversized inputs.
+ */
+export const loginPayloadSchema = z
+  .object({
+    username: z.string().min(1).max(64),
+    password: z.string().min(1).max(1024),
+  })
+  .strict();
+
+export type LoginPayload = z.infer<typeof loginPayloadSchema>;
+
+/**
+ * Allowed values for the ?range= query parameter on /api/stats.
+ */
+export const STATS_RANGES = ["7d", "30d", "90d"] as const;
+export type StatsRange = (typeof STATS_RANGES)[number];
+
+export const statsRangeSchema = z.enum(STATS_RANGES).default("30d");

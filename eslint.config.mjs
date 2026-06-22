@@ -13,6 +13,15 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    // Project-level rule overrides
+    rules: {
+      // The set-state-in-effect rule flags the common async data-fetch pattern
+      // (useCallback + useEffect). The state updates are inside an async function,
+      // not synchronous effect body mutations. Downgrade to warning.
+      "react-hooks/set-state-in-effect": "warn",
+    },
+  },
 ]);
 
 export default eslintConfig;
