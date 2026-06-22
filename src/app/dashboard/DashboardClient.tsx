@@ -225,7 +225,7 @@ export function DashboardClient({ username }: DashboardClientProps) {
 
         {/* Loading skeleton */}
         {loading && !stats && (
-          <div aria-busy="true" aria-label="Loading analytics data">
+          <div role="status" aria-label="Loading analytics data">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               {[0, 1, 2, 3].map((i) => (
                 <div

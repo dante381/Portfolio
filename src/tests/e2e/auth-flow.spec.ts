@@ -1,10 +1,20 @@
 // src/tests/e2e/auth-flow.spec.ts
-// Playwright E2E spec for the authentication flow.
+// Playwright E2E spec for the authentication flow and security header checks.
 //
 // Run with: npx playwright test src/tests/e2e/auth-flow.spec.ts
 // Requires the dev server at http://localhost:3000 and valid ADMIN_* env vars.
+// Install browsers first: npx playwright install
 //
-// These tests cover the full browser auth flow including middleware redirects.
+// Phase 4 coverage:
+//   • Auth middleware redirects (unauth /dashboard → /login, /api/stats → 401)
+//   • Login page a11y (labels, aria-live, button)
+//   • Cookie flags (HttpOnly + SameSite=Strict — requires ADMIN_PASSWORD_PLAINTEXT)
+//   • Security response headers (CSP, HSTS, X-Frame-Options, X-Content-Type-Options)
+//
+// Note: Cookie flag assertions require ADMIN_PASSWORD_PLAINTEXT in test env.
+//       Skip gracefully when not set.
+// Note: HSTS header only appears over HTTPS (Strict-Transport-Security is
+//       stripped on http by design). Verify HSTS on prod via securityheaders.com.
 
 import { test, expect } from "@playwright/test";
 
@@ -108,5 +118,43 @@ test.describe("Cookie flags", () => {
     const setCookie = res.headers()["set-cookie"] ?? "";
     expect(setCookie.toLowerCase()).toContain("httponly");
     expect(setCookie.toLowerCase()).toContain("samesite=strict");
+  });
+});
+
+test.describe("Security response headers", () => {
+  test("portfolio page returns X-Frame-Options: DENY", async ({ request }) => {
+    const res = await request.get(`${BASE_URL}/`);
+    const xfo = res.headers()["x-frame-options"];
+    expect(xfo).toBe("DENY");
+  });
+
+  test("portfolio page returns X-Content-Type-Options: nosniff", async ({
+    request,
+  }) => {
+    const res = await request.get(`${BASE_URL}/`);
+    const xcto = res.headers()["x-content-type-options"];
+    expect(xcto).toBe("nosniff");
+  });
+
+  test("portfolio page returns Content-Security-Policy with frame-ancestors none", async ({
+    request,
+  }) => {
+    const res = await request.get(`${BASE_URL}/`);
+    const csp = res.headers()["content-security-policy"] ?? "";
+    expect(csp).toContain("frame-ancestors 'none'");
+  });
+
+  test("portfolio page returns Referrer-Policy", async ({ request }) => {
+    const res = await request.get(`${BASE_URL}/`);
+    expect(res.headers()["referrer-policy"]).toBe(
+      "strict-origin-when-cross-origin"
+    );
+  });
+
+  test("portfolio page does NOT return x-powered-by header", async ({
+    request,
+  }) => {
+    const res = await request.get(`${BASE_URL}/`);
+    expect(res.headers()["x-powered-by"]).toBeUndefined();
   });
 });
