@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+/* ── Theme tokens ──────────────────────────────────────────────── */
+:root {
+  /* Base */
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
+  --color-surface-2: #1c2333;
+  --color-border: #30363d;
+
+  /* Text */
+  --color-text-primary: #cdd9e5;
+  --color-text-secondary: #8b949e;
+  --color-text-muted: #6e7681;
+
+  /* Accent – teal/cyan (brittanychiang-inspired) */
+  --color-accent: #64ffda;
+  --color-accent-dim: #64ffda33;
+  --color-accent-hover: #9effed;
+
+  /* Pipeline accent – a distinct warm teal-blue */
+  --color-pipeline: #58a6ff;
+  --color-pipeline-dim: #58a6ff22;
+
+  /* Nav */
+  --nav-width: 320px;
+
+  /* Motion */
+  --transition-base: 200ms ease;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Base styles ───────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans, "Inter", ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Focus visible ─────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+/* ── Selection ─────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-accent-dim);
+  color: var(--color-accent);
+}
+
+/* ── Utility classes (complement Tailwind) ─────────────────────── */
+.accent { color: var(--color-accent); }
+.accent-pipeline { color: var(--color-pipeline); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+
+/* ── Pipeline edge animation ───────────────────────────────────── */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -24; }
+}
+@keyframes pulse-node {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.pipeline-edge {
+  stroke-dasharray: 8 4;
+  animation: dash-flow 1.2s linear infinite;
+}
+.pipeline-node-pulse {
+  animation: pulse-node 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pipeline-edge,
+  .pipeline-node-pulse {
+    animation: none;
+  }
+}

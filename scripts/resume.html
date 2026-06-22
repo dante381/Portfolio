@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Anish Kshirsagar — Data Engineer</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    color: #1a2332; font-size: 10.5px; line-height: 1.45;
+  }
+  h1 { font-size: 22px; margin: 0; letter-spacing: 0.3px; color: #0f1b2d; }
+  .role { font-size: 11px; color: #0b7285; font-weight: 600; margin-top: 2px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .contact { margin-top: 6px; font-size: 9.5px; color: #475569; }
+  .contact a { color: #475569; text-decoration: none; }
+  .rule { height: 2px; background: #0b7285; margin: 10px 0 12px; border: none; }
+  h2 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: #0b7285; margin: 14px 0 6px; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px;
+  }
+  .summary { color: #334155; }
+  .job { margin-bottom: 9px; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .job-title { font-weight: 700; color: #0f1b2d; }
+  .job-co { color: #0b7285; font-weight: 600; }
+  .job-meta { color: #64748b; font-size: 9.5px; white-space: nowrap; }
+  ul { margin: 4px 0 0; padding-left: 16px; }
+  li { margin-bottom: 2.5px; color: #334155; }
+  .two { display: flex; gap: 20px; }
+  .skills b { color: #0f1b2d; }
+  .skills p { margin: 2px 0; color: #334155; }
+  .proj { margin-bottom: 6px; }
+  .proj b { color: #0f1b2d; }
+  .edu { color: #334155; }
+  strong.metric { color: #0b7285; }
+</style>
+</head>
+<body>
+  <h1>Anish Kshirsagar</h1>
+  <div class="role">Data Engineer</div>
+  <div class="contact">
+    Hyderabad, India (open to relocation — Bangalore) &nbsp;·&nbsp;
+    anishkshirsagar02@gmail.com &nbsp;·&nbsp; +91-9908741411<br/>
+    linkedin.com/in/anish-kshirsagar02 &nbsp;·&nbsp; github.com/dante381
+  </div>
+  <hr class="rule" />
+
+  <h2>Summary</h2>
+  <p class="summary">
+    Data Engineer with ~2 years building production-scale data infrastructure — high-volume ETL/ELT pipelines,
+    lakehouse analytics, master data management, and data-reliability frameworks. Built an enterprise data-reliability
+    platform from scratch that surfaces silent failures, sales drops, and duplicate records before they reach downstream
+    consumers. Proven at MDM scale (80M+ records, 90%+ precision) across batch and real-time pipelines. Strong ownership
+    mindset with a track record of improving data accuracy, pipeline performance (30–40% latency reduction), and data
+    quality in production.
+  </p>
+
+  <h2>Core Skills</h2>
+  <div class="skills">
+    <p><b>Languages:</b> Python, SQL, Java, C++, Node.js</p>
+    <p><b>Big Data:</b> Apache Spark / PySpark, distributed batch processing, ETL/ELT</p>
+    <p><b>Cloud &amp; Platforms:</b> Azure Data Factory, Synapse, Microsoft Fabric, Databricks / Delta Lake, lakehouse architecture</p>
+    <p><b>Data Engineering:</b> data modeling, partitioning, performance tuning, batch &amp; real-time pipeline design</p>
+    <p><b>Data Reliability:</b> schema validation, data-quality frameworks, anomaly detection, monitoring, CI/CD basics</p>
+    <p><b>ML Data Systems:</b> embeddings, similarity search, probabilistic record linkage, clustering</p>
+  </div>
+
+  <h2>Experience</h2>
+  <div class="job">
+    <div class="job-head">
+      <div><span class="job-title">Data Engineer 1 — Data &amp; Analytics</span>, <span class="job-co">Northern Tool + Equipment</span></div>
+      <div class="job-meta">May 2024 – Present</div>
+    </div>
+    <ul>
+      <li>Owned end-to-end Azure cloud data pipelines processing customer data from 5+ heterogeneous sources (CRM, ERP, third-party feeds) into a centralized lakehouse — designing both batch and real-time architecture to meet SLA and reliability requirements.</li>
+      <li>Built an enterprise data-reliability platform with automated schema enforcement, null validation, and anomaly detection — reducing downstream data issues by <strong class="metric">35%</strong> and surfacing hidden failures (sales drops, duplicate indexes, silent pipeline faults) before business impact.</li>
+      <li>Designed a Master Customer Dataset using probabilistic record linkage, deduplicating <strong class="metric">80M+ records to 40M unique customers</strong> at <strong class="metric">90%+ precision</strong>.</li>
+      <li>Built scalable batch embedding pipelines on Spark (PySpark), vectorizing millions of text and categorical attributes — reduced false matches by <strong class="metric">25%</strong> via cosine-similarity evaluation workflows.</li>
+      <li>Optimized PySpark configurations, SQL transformations, and partitioning strategies, cutting pipeline runtime by <strong class="metric">30–40%</strong> across production workloads.</li>
+      <li>Developed data modeling and partitioning aligned with Delta Lake lakehouse architecture, enabling efficient query patterns and incremental processing.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="job-head">
+      <div><span class="job-title">Software Developer Intern</span>, <span class="job-co">Northern Tool + Equipment</span></div>
+      <div class="job-meta">Sept 2023 – Apr 2024</div>
+    </div>
+    <ul>
+      <li>Built a Flutter-based real-time telemetry application ingesting BLE data from Northstar generators.</li>
+      <li>Reduced data ingestion and connection latency by <strong class="metric">40%</strong> through optimized batching and background processing; contributed to 95%+ user satisfaction.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="job-head">
+      <div><span class="job-title">Teaching Assistant</span>, <span class="job-co">ProCareer Academy</span></div>
+      <div class="job-meta">Aug 2023 – Sept 2023</div>
+    </div>
+    <ul>
+      <li>Mentored 100+ students in Python and backend fundamentals via hands-on labs and debugging sessions.</li>
+    </ul>
+  </div>
+
+  <h2>Projects</h2>
+  <div class="proj"><b>PC Monitoring Platform</b> — Distributed PC monitoring system (Unreal Engine + backend services); reduced service-desk workload by 25%. Multi-language (C++, Python, Java) modular ingestion and observability.</div>
+  <div class="proj"><b>Virtual Assistant Chatbot</b> — Full-stack application integrating OpenAI APIs; scaled experimentation to 30% more active users.</div>
+  <div class="proj"><b>Smart Home Security System</b> — IoT + AI security platform with real-time ingestion and alerting; reduced false alarms by 35%.</div>
+
+  <h2>Education</h2>
+  <div class="edu"><b>B.Tech in Computer Science</b> — Keshav Memorial Institute of Technology (KMIT) &nbsp;·&nbsp; 2020 – 2024</div>
+</body>
+</html>
