@@ -38,9 +38,12 @@ yarn-error.log*
 *.local
 
 # DB dumps — never commit
-*.sql
 *.dump
 *.pgdump
+# Raw SQL dumps (not Drizzle migration files — those are committed)
+*dump.sql
+# Drizzle migration files are committed (contain no secrets)
+!/drizzle/**/*.sql
 
 # vercel
 .vercel
