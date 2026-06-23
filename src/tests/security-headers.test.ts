@@ -54,13 +54,16 @@ describe("Security headers (next.config.ts)", () => {
     expect(csp).not.toContain("'unsafe-eval'");
   });
 
-  it("CSP script-src does NOT include 'unsafe-inline'", () => {
+  it("CSP script-src includes 'unsafe-inline' (required by Next.js 16 bootstrap — I-018)", () => {
+    // Next.js 16 App Router injects inline bootstrap scripts that can't be
+    // statically hashed. 'unsafe-inline' is required; 'unsafe-eval' is removed.
     const csp = headers["content-security-policy"];
     const scriptSrc = csp
       .split(";")
       .map((d: string) => d.trim())
       .find((d: string) => d.startsWith("script-src"));
-    expect(scriptSrc).not.toContain("'unsafe-inline'");
+    expect(scriptSrc).toContain("'unsafe-inline'");
+    expect(scriptSrc).not.toContain("'unsafe-eval'");
   });
 
   it("CSP frame-ancestors is 'none'", () => {
