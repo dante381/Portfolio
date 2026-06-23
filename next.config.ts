@@ -1,31 +1,16 @@
 import type { NextConfig } from "next";
 
-// ── CSP notes (Phase 4 tightening) ───────────────────────────────────────────
+// ── CSP notes ─────────────────────────────────────────────────────────────────
 //
-// script-src:
-//   'unsafe-inline' is REMOVED. Next.js 16 App Router injects a small inline
-//   bootstrap script, but it also emits a `__next_f` nonce attribute when
-//   running under a nonce-based CSP. However, nonce injection requires a
-//   middleware or server component to generate the nonce per-request and set
-//   it on all <script> tags — a significant refactor with Framer Motion (which
-//   also needs the nonce). The trade-off chosen for Phase 4:
-//     • Remove 'unsafe-eval' (no longer needed — Next 16 prod build uses
-//       static chunks, no eval).
-//     • Keep 'unsafe-inline' ONLY for style-src (Tailwind CSS injects inline
-//       styles; Framer Motion also writes inline styles for animations).
-//     • For script-src: remove 'unsafe-inline' and 'unsafe-eval'.
-//       Next.js App Router in production does NOT need unsafe-eval.
-//       The remaining inline scripts from Next.js are nonce-gated in prod when
-//       a nonce header is present; in dev they appear as inline chunks.
-//       ACCEPTED RISK (documented): CI/dev builds may log a CSP violation for
-//       Next.js's own inline bootstrap script. In production (Vercel), Next
-//       applies nonce via middleware — Phase 5 will wire the nonce header.
-//       For now, script-src is tightened to 'self' only.
+// script-src 'unsafe-inline': Next.js 16 App Router injects inline bootstrap
+// scripts that cannot be hashed (they change per-build) without nonce-based
+// CSP. Implementing per-request nonces requires significant middleware + layout
+// refactor (Framer Motion and recharts also need the nonce). Trade-off accepted:
+// keep 'unsafe-inline' for script-src; remove 'unsafe-eval' (the higher-risk
+// directive). XSS risk is mitigated by strict input validation (zod), no
+// dangerouslySetInnerHTML on untrusted data, and all other headers in place.
 //
-// font-src: 'self' only — Google Fonts are loaded via next/font which
-//   self-hosts the font files (downloaded at build time). No external CDN
-//   request is made at runtime.
-//
+// font-src: 'self' only — next/font self-hosts Google Fonts at build time.
 // connect-src: 'self' — all API calls are same-origin.
 //
 const securityHeaders = [
@@ -54,17 +39,11 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=()",
   },
-  // Content Security Policy — Phase 4 hardened.
-  // Changes from Phase 3:
-  //   • script-src: removed 'unsafe-inline' and 'unsafe-eval'
-  //   • style-src: keeps 'unsafe-inline' (Tailwind + Framer Motion inline styles)
-  //   • font-src: 'self' only (next/font self-hosts Google fonts)
-  //   • frame-ancestors: 'none' (equivalent to X-Frame-Options DENY)
   {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self'",
+      "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",
