@@ -88,7 +88,7 @@ export const summary: Summary = {
   paragraphs: [
     "I'm a Data Engineer with 2+ years of experience designing and shipping production-scale data infrastructure. My work lives at the intersection of data quality, distributed processing, and real-world impact — I care about pipelines that actually run reliably, not just demos that work once.",
     "At Northern Tool + Equipment I built the customer MDM system that collapsed 80M+ duplicate records into a clean 40M-record golden dataset at 90%+ precision, drove a Data Reliability Platform that cut downstream failures by 35%, and architected end-to-end Azure ETL/ELT pipelines across 5+ heterogeneous sources feeding a centralized lakehouse.",
-    "I reach for PySpark, Azure (ADF/Synapse/Databricks/Delta Lake), and Python for the heavy lifting, and I'm equally comfortable with the unglamorous parts: schema validation, anomaly detection, performance tuning, and on-call debugging at 2 AM.",
+    "I reach for PySpark, Azure (ADF/Synapse/Databricks/Delta Lake), and Python for the heavy lifting, with general AWS ecosystem familiarity (S3, IAM, EC2). Equally comfortable with the unglamorous parts: schema validation, anomaly detection, performance tuning, and on-call debugging at 2 AM.",
   ],
 };
 
@@ -241,8 +241,8 @@ export const skillGroups: SkillGroup[] = [
     skills: ["PySpark", "Apache Spark", "Distributed Batch", "Partitioning", "Performance Tuning"],
   },
   {
-    label: "Azure",
-    skills: ["Azure Data Factory", "Azure Synapse", "Azure Databricks", "Microsoft Fabric", "Delta Lake"],
+    label: "Cloud",
+    skills: ["Azure Data Factory", "Azure Synapse", "Azure Databricks", "Microsoft Fabric", "Delta Lake", "AWS S3", "AWS IAM", "AWS EC2"],
   },
   {
     label: "Data Engineering",
