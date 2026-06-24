@@ -125,7 +125,7 @@ export const experience: ExperienceItem[] = [
     type: "part-time",
     bullets: [
       "Mentored 100+ students in Python programming and backend development fundamentals, conducting code reviews and debugging sessions.",
-      "Created supplementary materials and exercises focused on practical data manipulation with pandas and SQL.",
+      "Designed practical assignments and exercises focused on Python, SQL, and backend problem-solving, improving student engagement and problem-solving depth by 40%.",
     ],
   },
 ];
@@ -242,7 +242,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     label: "Azure",
-    skills: ["Azure Data Factory", "Azure Synapse", "Azure Databricks", "Azure Fabric", "Delta Lake"],
+    skills: ["Azure Data Factory", "Azure Synapse", "Azure Databricks", "Microsoft Fabric", "Delta Lake"],
   },
   {
     label: "Data Engineering",
@@ -250,7 +250,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     label: "Reliability",
-    skills: ["Schema Validation", "Data Quality Frameworks", "Anomaly Detection", "Monitoring & Alerting"],
+    skills: ["Schema Validation", "Data Quality Frameworks", "Anomaly Detection", "Monitoring & Alerting", "Git / CI/CD"],
   },
   {
     label: "ML Data Systems",
