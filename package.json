@@ -22,7 +22,7 @@
     "@upstash/redis": "^1.38.0",
     "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.2",
-    "framer-motion": "^12.40.0",
+    "framer-motion": "^12.42.0",
     "jose": "^6.2.3",
     "lucide-react": "^1.21.0",
     "next": "16.2.9",
